@@ -47,8 +47,8 @@ for i in os.listdir(path):
 
     for l in lines:
         mydict[l]= rows[l]
-    print(mydict[6])
-    serie = mydict[6]
+
+    serie = mydict[5]
     no_serie = re.findall(r"\d+", serie)
     no_serie = no_serie[0]
 
