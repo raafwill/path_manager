@@ -1,4 +1,41 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+
+
 <form method = "GET">
     {{ form }}
-    <input type = "submit" value = "Submit">
+    <input type = "submit" value = "Iniciar" id="iniciar">
 </form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $('#iniciar').click(function(){
+
+        excel = document.getElementById("id_excel").files[0].name
+        path = $("#id_path option:selected").val()
+        n_path = $("#id_path_to_upload option:selected").val()
+
+        let url = "/reader/" + excel +"/"+ path +"/"+ n_path
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                data = response
+                console.log("this")
+                alert(data)
+            },
+            error: function(xhr){
+                console.log(xhr)
+            }
+        });
+
+    })
+
+</script>
