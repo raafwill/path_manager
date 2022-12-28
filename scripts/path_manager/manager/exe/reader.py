@@ -7,6 +7,7 @@ import copy
 import pathlib
 import pandas as pd
 import glob
+from manager.models import Reader
 
 
 class PathManager:
@@ -15,7 +16,7 @@ class PathManager:
         df = pd.read_excel(excel)
         return df
 
-    def read(path, excel, npath):
+    def read(path, excel, npath, pk):
         print(path)
         print(excel)
         print(npath)
@@ -23,20 +24,24 @@ class PathManager:
         text = ""
         loop = 0
         #loop for read each file
-        for i in os.listdir(path):
-            loop+=1    
+        for i in os.listdir(path): 
             print(i)
             pdfFileObj = open(path+"\\"+i, 'rb')
-            pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            try:
+                pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
+            except:
+                continue
+            
+            loop+=1   
             num_pages = pdfReader.numPages
             info=pdfReader.getDocumentInfo()
             print(info)
 
-            while count < num_pages:
-                pageObj = pdfReader.getPage(count)
-                count +=1
-                text = pageObj.extractText()
-                print("numero da pagina: ", count)
+            pageObj = pdfReader.getPage(0)
+            count +=1
+
+            text = pageObj.extractText()
+            print("numero da pagina: ", count)
 
             pdfFileObj.close()
 
@@ -67,3 +72,5 @@ class PathManager:
             print(new_path+i)
             os.makedirs(new_path)
             shutil.move(path+"\\"+i, new_path+"\\"+i)
+        
+        Reader.objects.filter(id=pk).update(quantity=int(loop), status="Finalizado")

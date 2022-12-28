@@ -26,6 +26,10 @@ class Reader(models.Model):
     path_to_manage = models.CharField("Caminho para Pasta Destino", max_length=150, blank=True, default='')
     path_files = models.CharField("Caminho de Pasta Origem", max_length=150, blank=True, default='')
     status = models.CharField(max_length=15 ,default='Criado')
+    quantity = models.IntegerField(default=0)
 
     # def __str__(self) -> str:
     #     return self.user_exe
+
+    class Meta:
+        ordering = ['-date']

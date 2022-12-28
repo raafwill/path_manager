@@ -12,6 +12,8 @@ def manage(request):
     form = Manage(request.POST or None)
 
     if form.is_valid():
+        form = form.save(commit=False)
+        form.user_exe = request.user
         form.save()
         return redirect('/readers-list')
     
@@ -26,14 +28,14 @@ def pdf_reader(request, pk):
     path = reading.path_files
     new_path = reading.path_to_manage
 
-    return render(request, {"read": PathManager.read(path, excel, new_path)})
+    return render(request, {"read": PathManager.read(path, excel, new_path, pk)})
 
 
 class Readers_list(ListView):
         template_name = 'readers-list.html'
         model = Reader
-        paginate_by = 20
+        paginate_by = 8
 
         def get_queryset(self):
-            p = Reader.objects.filter(status="Criado")
+            p = Reader.objects.filter()
             return p

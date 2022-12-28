@@ -41,16 +41,20 @@
 
 <div class="container">
     <br>
+    <a href="{% url 'manager:manager' %}"><button type="submit" class="btn btn-info" style="float: right;">Novo Registro</button></a>
+
     <p class="h3">Registros em aberto</p>
+    
     <table class="table">
         <thead class="thead-dark">
           <tr>
-            <th class="text-left">Usuario</th>
-			<th class="text-left">Data</th>
-			<th class="text-left">Excel</th>
-			<th class="text-left">Pasta Destino</th>
-			<th class="text-center">Pasta Origem</th>
+            <th class="text-center">Usuario</th>
+			      <th class="text-center">Data</th>
+            <th class="text-center">Excel</th>
+            <th class="text-center">Pasta Destino</th>
+            <th class="text-center">Pasta Origem</th>
             <th>Status</th>
+            <th class="text-center">Qtd.</th>
             <th></th>
           </tr>
         </thead>
@@ -63,11 +67,18 @@
             <td class="text-left">{{ r.path_to_manage }}</td>    
             <td class="text-left">{{ r.path_files }}</td>
             <td class="text-left">{{ r.status }}</td>
-            <td class="text=center"><a href="{% url 'manager:pdfReader' r.id %}">{{r.id}}</a></td>
+            <td class="text-left">{{ r.quantity }}</td>
+            {% if r.status == "Criado" %}
+              <td class="text=center">
+                <a href="{% url 'manager:pdfReader' r.id %}"><i class="fas fa-play-circle" style="font-size:23px" data-toggle="modal" data-target="#modalCart"></i></a></td>
+            {% else %}
+              <td class="text=center">{{r.id}}</td>
+            {% endif %}
           </tr>
           {% endfor %}
         </tbody>
       </table>
+
 </div>
 
 {% else %}
