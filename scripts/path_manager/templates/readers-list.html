@@ -10,7 +10,7 @@
   <link rel="shortcut icon" href="{% static 'img/cart.png' %}">
 
   {% block title %}
-    <title>Adicionar Registro</title>
+    <title>Registros</title>
   {% endblock title %}
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
@@ -35,17 +35,45 @@
     <script src="{% static 'js/select2.min.js' %}"></script>
 
 </head>
-    <body>
-        <div class="container">
-            <br>
-            <p class="h3">Organizar nova pasta</p>
-            <form action="." method="POST">
-                <div class="form-group">
-                    {% csrf_token %}
-                    {{ form|bootstrap}}
-                </div>
-                <button type="submit" class="btn btn-primary">Registrar</button>
-            </form>
-        </div>
-    </body>
+<body>
+    
+{% if object_list %}
+
+<div class="container">
+    <br>
+    <p class="h3">Registros em aberto</p>
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th class="text-left">Usuario</th>
+			<th class="text-left">Data</th>
+			<th class="text-left">Excel</th>
+			<th class="text-left">Pasta Destino</th>
+			<th class="text-center">Pasta Origem</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for r in object_list %}
+          <tr>
+            <th scope="row">{{ r.user_exe }}</th>
+            <td class="text-left">{{ r.date }} </td>
+            <td class="text-left">{{ r.excel_file }}</td>
+            <td class="text-left">{{ r.path_to_manage }}</td>    
+            <td class="text-left">{{ r.path_files }}</td>
+            <td class="text-left">{{ r.status }}</td>
+            <td class="text=center"><a href="{% url 'manager:pdfReader' r.id %}">{{r.id}}</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% else %}
+
+    <p class="alert alert-warning">Sem itens na lista.</p>
+{% endif %}
+
+</body>
 </html>

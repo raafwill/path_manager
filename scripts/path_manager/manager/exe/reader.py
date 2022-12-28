@@ -8,10 +8,6 @@ import pathlib
 import pandas as pd
 import glob
 
-path = "C:/Users/willi/Desktop/PDFS-TESTES/"
-dir = "C:/Users/willi/Desktop/PDFS-ORG/"
-df = pd.read_excel("C:/Users/willi/Desktop/PDFS-ORG/NOTAS.xlsx")
-
 
 class PathManager:
 
@@ -20,6 +16,9 @@ class PathManager:
         return df
 
     def read(path, excel, npath):
+        print(path)
+        print(excel)
+        print(npath)
         count = 0
         text = ""
         loop = 0
@@ -27,7 +26,7 @@ class PathManager:
         for i in os.listdir(path):
             loop+=1    
             print(i)
-            pdfFileObj = open(path+i, 'rb')
+            pdfFileObj = open(path+"\\"+i, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
             num_pages = pdfReader.numPages
             info=pdfReader.getDocumentInfo()
@@ -67,4 +66,4 @@ class PathManager:
             new_path = os.path.join(npath, str(no_serie)+" - "+str(no_servico)+" - "+str(loop))
             print(new_path+i)
             os.makedirs(new_path)
-            shutil.move(path+i, new_path+"/"+i)
+            shutil.move(path+"\\"+i, new_path+"\\"+i)
